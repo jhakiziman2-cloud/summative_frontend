@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Tests</title>
+    </head>
+    <body>
+        <h1>Regex tests</h1>
+        <ul id="out"></ul>
+        <script src="scripts/validators.js"></script>
+        <script src="scripts/search.js"></script>
+        <script>
+            function test(name, result) {
+                var li = document.createElement("li");
+                li.textContent = (result ? "PASS: " : "FAIL: ") + name;
+                li.style.color = result ? "green" : "red";
+                document.getElementById("out").appendChild(li);
+            }
+            test("good title", checkTitle("Study hard") === "");
+            test("title with leading space fails", checkTitle(" Study") !== "");
+            test("duplicate word fails", checkTitle("the the exam") !== "");
+            test("duration 60 ok", checkDuration("60") === "");
+            test("duration 01 fails", checkDuration("01") !== "");
+            test("date ok", checkDate("2026-10-14") === "");
+            test("date month 13 fails", checkDate("2026-13-14") !== "");
+            test("tag ok", checkTag("Group-work") === "");
+            test("tag with number fails", checkTag("Study1") !== "");
+            test("bad regex returns null", compileRegex("(",true) === null);
+            test("highlight adds mark", highlight("abc",/b/g) === "a<mark>b</mark>c");
+            test("highlight escapes html", highlight("<b>", null) === "&lt;b&gt;");
+        </script>
+    </body>
+</html>
